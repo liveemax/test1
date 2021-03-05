@@ -1,10 +1,13 @@
 import React, {Component} from "react";
 import {Button, Card} from "react-bootstrap";
+import classes from "./city.module.scss"
+
 
 export class City extends Component<{}> {
+
     render() {
         return (
-                <Card className={"col-6 mb-1 d-flex p-0"}>
+                <Card className={`col-sm-12 mb-1 col-lg-6 mb-6 d-flex p-0 ${classes.root}`}>
                     <Card.Header >Город:</Card.Header>
                     <Card.Body className={"d-flex  flex-column text-center"}>
                         <Card.Title>Температура:</Card.Title>
@@ -18,8 +21,6 @@ export class City extends Component<{}> {
                         </div>
                     </Card.Body>
                 </Card>
-
-
         )
     }
 }
