@@ -1,20 +1,18 @@
-import {Component} from "react";
+import React, {Component} from "react";
+import classes from "./header.module.scss"
+import {Button, Form} from "react-bootstrap";
+
 
 export class Header extends Component<{}> {
     render() {
         return (
-            <div style={{display:"flex",justifyContent:"center"}}>
+            <div className={"container-fluid"}>
                 <header>
-                    <div>
-                        <div>
-                            <form><input/>
-                            <input/>
-                            </form>
-                        </div>
-                        <div>
-                            <button></button>
-                        </div>
-                    </div>
+                    <Form className={"d-flex pt-2 align-items-center"+" "+classes.form}>
+                        <Form.Control placeholder="Enter city"/>
+                        <Button variant="primary">Set</Button>
+                        <Button variant="outline-secondary p-1">Update every:</Button>
+                    </Form>
                 </header>
             </div>
         )
