@@ -1,13 +1,15 @@
 import React from 'react';
 import {BrowserRouter} from "react-router-dom";
-import {Header} from "./component/Header/Header";
 import {Footer} from "./component/Footer/Footer";
 import {Center} from "./component/Center/Center";
+import store from "./redux/redux-store";
+import {Provider} from "react-redux";
+import {HeaderContainer} from "./component/Header/HeaderContainer";
 
 function App() {
     return (
         <div>
-            <Header/>
+            <HeaderContainer/>
             <Center/>
             <Footer/>
         </div>
@@ -15,11 +17,12 @@ function App() {
     );
 }
 
-
 export const Root = () => {
     return (
         <BrowserRouter>
-            <App/>
+            <Provider store={store}>
+                <App/>
+            </Provider>
         </BrowserRouter>
     )
 }
