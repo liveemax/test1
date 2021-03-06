@@ -12,8 +12,9 @@ export class Header extends Component<HeaderDispatch & HeaderProps> {
         refToolTip:React.createRef() as any,
         refInput:React.createRef() as any
     }
-     onSubmit = (submit: {input:string},form:{reset:()=>void},) => {
-        form.reset()
+     onSubmit = (submit: {input:string},form:{reset:()=>void}) => {
+         form.reset()
+         this.props.observeCity(submit.input)
          this.props.setToolTip("")
          this.forceUpdate()
     }
@@ -50,7 +51,7 @@ export class Header extends Component<HeaderDispatch & HeaderProps> {
                                             <div ref={this.state.refToolTip} className={`${classes.formInputButton} d-flex flex-column container-fluid`}>
                                                 {this.props.tooltip?.map((el,index)=>{
                                                     return (<input onClick={(e)=>{
-                                                        values.input=el
+                                                        values.input=el.split(",")[0]
                                                         this.forceUpdate()
                                                     }}  type={"button"} id={`${index}`} key={el+index} value={el}/>)
                                                 })}

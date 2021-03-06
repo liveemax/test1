@@ -1,9 +1,14 @@
 import {BaseThunkType, InferActionsTypes} from "./redux-store";
 import {setCity} from "./function/setCity";
 import {toolTipAPI} from "../api/apiCity/header-cityApi";
+import {whetherAPI} from "../api/apiWeather/header-weatherApi";
+import {setWeather} from "./function/setWeather";
+import {weather} from "../type/type";
 
 let initialState = {
-    tooltip:null as null|Array<string>
+    xy:null as null|Array<number>,
+    tooltip:null as null|Array<string>,
+    weather: {} as weather,
 }
 
 export const headerReducer = (state = initialState, action: ActionsType): InitialStateType => {
@@ -11,7 +16,13 @@ export const headerReducer = (state = initialState, action: ActionsType): Initia
         case "SELECT_HEADER_TOOLTIP":
             return {
                 ...state,
-                tooltip:action.tooltip
+                tooltip:action.tooltip,
+                xy:action.tooltip
+            }
+        case "SELECT_HEADER_WEATHER":
+            return {
+                ...state,
+                weather:action.weather,
             }
         default:
             return state;
@@ -19,17 +30,23 @@ export const headerReducer = (state = initialState, action: ActionsType): Initia
 }
 
 export const actions = {
-    toolTipAC: (tooltip: null|Array<string>) => ({type: 'SELECT_HEADER_TOOLTIP', tooltip} as const),
+    toolTipAC: (tooltip: null|Array<string>,xy:null|Array<number>) => ({type: 'SELECT_HEADER_TOOLTIP', tooltip,xy} as any),
+    observeCityAC: (weather:weather) => ({type: 'SELECT_HEADER_WEATHER', weather} as const),
 }
 
 export const setToolTip = (nameStartsWith:string): ThunkType => async (dispatch) => {
     if(nameStartsWith.length>2) {
         const data = await toolTipAPI.get(nameStartsWith)
-        const city = setCity(data)
-        dispatch(actions.toolTipAC(city))
+        let {city,xy,...cityXy}=setCity(data)
+        dispatch(actions.toolTipAC(city,xy))
     }
-    else dispatch(actions.toolTipAC(null))
-    debugger
+    else dispatch(actions.toolTipAC(null,null))
+}
+export const observeCity = (submit:string): ThunkType => async (dispatch) => {
+    const weatherData = await whetherAPI.get(submit)
+    const weather=setWeather(weatherData.data)
+    dispatch(actions.observeCityAC(weather))
+debugger
 }
 
 export type InitialStateType = typeof initialState
