@@ -1,5 +1,6 @@
 import {BaseThunkType, InferActionsTypes} from "./redux-store";
-import {authAPI} from "../api/header-api";
+import {setCity} from "./function/setCity";
+import {toolTipAPI} from "../api/apiCity/header-cityApi";
 
 let initialState = {
     tooltip:null as null|Array<string>
@@ -22,10 +23,13 @@ export const actions = {
 }
 
 export const setToolTip = (nameStartsWith:string): ThunkType => async (dispatch) => {
+    if(nameStartsWith.length>2) {
+        const data = await toolTipAPI.get(nameStartsWith)
+        const city = setCity(data)
+        dispatch(actions.toolTipAC(city))
+    }
+    else dispatch(actions.toolTipAC(null))
     debugger
-
-    const data = await authAPI.me(nameStartsWith)
-        dispatch(actions.toolTipAC(data))
 }
 
 export type InitialStateType = typeof initialState

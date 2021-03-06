@@ -1,7 +1,8 @@
 import axios from "axios";
 
-export const instance = axios.create({
+export const cityApi = axios.create({
     baseURL: 'http://api.geonames.org',
+    timeout: 3000,
     }
 );
 
