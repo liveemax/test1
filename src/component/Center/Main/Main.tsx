@@ -8,7 +8,7 @@ export class Main extends Component<MainProps & MainDispatch> {
         cityData: [] as any,
     }
     del(ind:number){
-        //Удаляем город, перезаписывает state данныйх, локальное хранилище
+        //Удаляем город, перезаписывает state данныйх и локальное хранилище
         let count=0;
         delete this.state.cityData[ind]
         for (let [key,val] of Object.entries(this.state.cityData))
