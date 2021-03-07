@@ -46,7 +46,6 @@ export const observeCity = (submit:string): ThunkType => async (dispatch) => {
     const weatherData = await whetherAPI.get(submit)
     const weather=setWeather(weatherData.data)
     dispatch(actions.observeCityAC(weather))
-debugger
 }
 
 export type InitialStateType = typeof initialState

@@ -1,7 +1,6 @@
 import {weather} from "../../type/type";
 
 export const setWeather=(weatherData:any)=>{
-    debugger
     const weather:weather= {
         name:weatherData.name,
         temp:weatherData.main.temp-273,

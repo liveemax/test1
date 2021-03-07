@@ -65,8 +65,6 @@ export class Header extends Component<HeaderDispatch & HeaderProps> {
                                             variant="secondary">Submit
                                     </Button>
                                     <Button variant="secondary">Update:every 5 sec</Button>
-                                    <pre>{JSON.stringify(values)}</pre>
-
                                 </div>
                             </form>
                         )}

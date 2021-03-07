@@ -11,7 +11,6 @@ export const setCity=(data:any)=>{
         city[ind]=`${el.name},${el.countryName}-${el.fcodeName}`
         xy[ind]=[el.lat,el.lng]
     })
-    debugger
 
     return {city,xy}
 }

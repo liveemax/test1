@@ -4,5 +4,6 @@ export type weather= {
     humidity:number,
     pressure:number,
     wind:Array<number>,
-    time:number
+    time:number,
+    nmb?:number
 }
