@@ -34,7 +34,7 @@ export class City extends Component<CityProps> {
 
     render() {
         if (this.props.city) {
-                let time = new Date(this.props.city.time)
+            let time = new Date(this.props.city.time)
             return (
                 <Card className={`col-sm-12 mb-1 col-lg-6 mb-6 d-flex p-0 ${classes.root}`}>
                     <Card.Header>Город:{this.props.city.name}</Card.Header>
@@ -49,7 +49,8 @@ export class City extends Component<CityProps> {
                         <Card.Title>Влажность:{this.props.city.humidity}%</Card.Title>
                         <Card.Title>Атмосферное давление:{this.props.city.pressure}</Card.Title>
                         <Card.Title>Сила и направление ветра:{this.props.city.wind.speed}М/С
-                            <FontAwesomeIcon icon={faArrowUp} className={classes.arrow} transform={{ rotate: this.props.city.wind.deg }}/>
+                            <FontAwesomeIcon icon={faArrowUp} className={classes.arrow}
+                                             transform={{rotate: this.props.city.wind.deg}}/>
                         </Card.Title>
                         <Card.Title>Последнее обновление данных:{time.toDateString().split(" ")[2] + " " +
                         time.toDateString().split(" ")[1] + " " + time.toDateString().split(" ")[3] + " " + time.toLocaleTimeString()} </Card.Title>

@@ -14,31 +14,46 @@ export class Aside extends Component<AsideProps> {
         minim:273,
     }
     isNewRecord(){
+        //бЕз 100 грамм тут нечего делать, я пошел
+        debugger
+        let maxim=-273,maxCity="",minCity="",minim=273
         for(let i=0;i<Number(localStorage.getItem("isCity"))&&Number(localStorage.getItem("isCity"))>1;i++) {
             let temp = Number(JSON.parse(localStorage.getItem(`${i}`)!).temp.toFixed(2))
             let city = JSON.parse(localStorage.getItem(`${i}`)!).name
-            //MAX/MIN
-            if (this.state.maxim < temp) {
-                this.setState({maxim: temp})
-                this.setState({maxCity: city})
-
+            if(i===0){
+                    maxim=temp
+                    maxCity=city
+                    minCity=city
+                    minim=temp
+                continue
             }
-            if(this.state.minim>temp) {
-                this.setState({minCity: city})
-                this.setState({minim: temp})
+            //MAX/MIN
+            if (maxim < temp){
+                maxim= temp
+                maxCity= city
+            }
+            if(minim>temp){
+                minCity= city
+                minim= temp
             }
         }
+        //MAX/MIN пушим в стэйт
+            this.setState({maxim: maxim})
+            this.setState({maxCity: maxCity})
+            this.setState({minCity: minCity})
+            this.setState({minim: minim})
     }
 componentDidMount() {
             this.isNewRecord()
 }
-
     componentDidUpdate(prevProps: Readonly<AsideProps>, prevState: Readonly<AsideProps>, snapshot?: any) {
-        debugger
-        this.isNewRecord()
+        if(prevProps!==this.props) {
+            this.isNewRecord()
+        }
+
     }
 
-    render() {
+    render(){
         return (
             <aside className={`${classes.root} m-1`}>
                 <Carousel fade>
@@ -74,7 +89,7 @@ componentDidMount() {
 export type AsideProps = ReturnType<typeof mapStateToProps>
 
 let mapStateToProps = (store: AppStateType) =>({
-    weather: store.header.weather
+    isWidgetUpdate:store.header.isWidgetUpdate
 })
 
 export const AsideContainer = connect(mapStateToProps)(Aside);

@@ -6,7 +6,7 @@ import {observeCity} from "./../../../redux/headerReducer";
 
 export type MainProps = ReturnType<typeof mapStateToProps>
 export type MainDispatch={
-    observeCity:(submit:string)=>void
+    observeCity:(submit:string,isDel?:boolean)=>void
 }
 
 let mapStateToProps = (store: AppStateType) => ({
