@@ -2,11 +2,11 @@ import {weather} from "../../type/type";
 
 export const setWeather=(weatherData:any)=>{
     const weather:weather= {
-        name:weatherData.name,
-        temp:weatherData.main.temp-273,
-        humidity:weatherData.main.humidity,
-        pressure:weatherData.main.pressure,
-        wind:weatherData.wind,
+        name:weatherData.data.name,
+        temp:weatherData.data.main.temp-273,
+        humidity:weatherData.data.main.humidity,
+        pressure:weatherData.data.main.pressure,
+        wind:weatherData.data.wind,
         time:Date.now()
     }
 

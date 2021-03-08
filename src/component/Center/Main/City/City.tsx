@@ -28,7 +28,7 @@ export class City extends Component<CityProps> {
 
     }
 
-    handleOnclickUp() {
+    handleOnclickUp(e:any) {
         this.props.update(this.props.city.name)
     }
 
@@ -57,7 +57,11 @@ export class City extends Component<CityProps> {
                         <div className={"d-flex justify-content-center"}>
                             <Button onClick={() => this.handleOnclickDel()} variant="success"
                                     className={"mr-1"}>Удалить</Button>
-                            <Button onClick={() => this.handleOnclickUp()} variant="danger">Обновить</Button>
+                            <Button onClick={(e:any) =>{
+                                e.currentTarget.disabled=true
+                                this.handleOnclickUp(e)
+                            }
+                            } variant="danger">Обновить</Button>
                         </div>
                     </Card.Body>
                 </Card>

@@ -14,7 +14,7 @@ let initialState = {
 
 export const headerReducer = (state = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case "SELECT_BUTTON_DELETE":
+        case "SELECT_WIDGET":
             return {
                 ...state,
                 isWidgetUpdate:!state.isWidgetUpdate,
@@ -39,7 +39,7 @@ export const headerReducer = (state = initialState, action: ActionsType): Initia
 export const actions = {
     toolTipAC: (tooltip: null|Array<string>,xy:null|Array<number>) => ({type: 'SELECT_HEADER_TOOLTIP', tooltip,xy} as any),
     observeCityAC: (weather:weather) => ({type: 'SELECT_HEADER_WEATHER', weather} as const),
-    buttonDeleteAC: (isWidgetUpdate:boolean) => ({type: 'SELECT_BUTTON_DELETE', isWidgetUpdate} as const),
+    buttonDeleteAC: (isWidgetUpdate:boolean) => ({type: 'SELECT_WIDGET', isWidgetUpdate} as const),
 }
 
 export const setToolTip = (nameStartsWith:string): ThunkType => async (dispatch) => {
@@ -55,9 +55,15 @@ export const observeCity = (submit:string,isWidgetUpdate?:boolean): ThunkType =>
         dispatch(actions.buttonDeleteAC(isWidgetUpdate))
     }
     else {
-        const weatherData = await whetherAPI.get(submit)
-        const weather = setWeather(weatherData.data)
-        dispatch(actions.observeCityAC(weather))
+        let weatherData
+        try {
+            weatherData = await whetherAPI.get(submit)
+            const weather = setWeather(weatherData)
+            dispatch(actions.observeCityAC(weather))
+        }
+        catch (e){
+            alert("город не найден")
+        }
     }
 }
 

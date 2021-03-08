@@ -15,7 +15,6 @@ export class Aside extends Component<AsideProps> {
     }
     isNewRecord(){
         //бЕз 100 грамм тут нечего делать, я пошел
-        debugger
         let maxim=-273,maxCity="",minCity="",minim=273
         for(let i=0;i<Number(localStorage.getItem("isCity"))&&Number(localStorage.getItem("isCity"))>1;i++) {
             let temp = Number(JSON.parse(localStorage.getItem(`${i}`)!).temp.toFixed(2))
@@ -56,7 +55,7 @@ componentDidMount() {
     render(){
         return (
             <aside className={`${classes.root} m-1`}>
-                <Carousel fade>
+                <Carousel interval={null} fade>
                     <Carousel.Item>
                         <img
                             className="d-block w-100"

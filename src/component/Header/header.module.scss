@@ -13,4 +13,11 @@
   .formLastButton{
     display: flex;
   }
+  .active{
+    visibility: visible;
+    display: flex;
+  }
+  .spinner{
+    visibility: hidden;
+  }
 }
