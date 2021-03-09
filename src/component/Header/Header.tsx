@@ -4,10 +4,10 @@ import {Field, Form} from "react-final-form";
 import classes from "./header.module.scss"
 import {Button, Spinner} from "react-bootstrap";
 
+
 export class Header extends Component<HeaderDispatch & HeaderProps> {
     state = {
         inputValue: ``,
-        showA: true,
         updateInterval: ["none", "5 sec", "30 sec", "60 sec"],
         currentIndex: 0,
         spinner: true
@@ -31,7 +31,7 @@ export class Header extends Component<HeaderDispatch & HeaderProps> {
 
     onSubmit = (submit: { input: string }, form: { reset: () => void }) => {
         form.reset()
-        this.props.observeCity(submit.input)
+        this.props.addCity(submit.input)
         this.props.setToolTip("")
         this.forceUpdate()
     }
@@ -41,7 +41,7 @@ export class Header extends Component<HeaderDispatch & HeaderProps> {
             this.setState({currentIndex: 0})
         else
             this.setState({currentIndex: ++this.state.currentIndex})
-        debugger
+
         if (this.state.currentIndex === 3) {
             clearTimeout(Number(localStorage.getItem("timerId")))
             localStorage.removeItem("timerId")
@@ -54,7 +54,7 @@ export class Header extends Component<HeaderDispatch & HeaderProps> {
             clearTimeout(Number(localStorage.getItem("timerId")))
             localStorage.removeItem("timerId")
         }
-        this.tick(this.props.observeCity)
+        this.tick(this.props.addCity)
         if (prevState.inputValue !== this.state.inputValue) {
             this.setState({spinner: true})
             this.props.setToolTip(this.state.inputValue)
@@ -62,6 +62,7 @@ export class Header extends Component<HeaderDispatch & HeaderProps> {
     }
 
     render() {
+
         return (
             <div className={"container-fluid"}>
                 <header>
@@ -97,7 +98,8 @@ export class Header extends Component<HeaderDispatch & HeaderProps> {
                                                         return (<input onClick={(e) => {
                                                             values.input = el.split(",")[0]
                                                             this.forceUpdate()
-                                                        }} type={"button"} id={`${index}`} key={el + index} value={el}/>)
+                                                        }} type={"button"} id={`${index}`} key={el + index}
+                                                                       value={el}/>)
                                                     })}
                                                 </div>}
                                         </div>
@@ -119,3 +121,5 @@ export class Header extends Component<HeaderDispatch & HeaderProps> {
         )
     }
 }
+
+

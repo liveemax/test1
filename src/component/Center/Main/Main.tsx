@@ -19,7 +19,6 @@ export class Main extends Component<MainProps & MainDispatch> {
         }
         delete this.state.cityData[localStorage.getItem("isCity")!]
         localStorage.removeItem(localStorage.getItem("isCity")!)
-        this.props.observeCity("", true)
         this.forceUpdate()
     }
 
@@ -28,46 +27,17 @@ export class Main extends Component<MainProps & MainDispatch> {
         if (localStorage.getItem("isCity")) {
             for (let i = 0; i <= Number(localStorage.getItem("isCity")); i++) {
                 this.state.cityData[i] = localStorage.getItem(String(i))
-                this.state.cityData[i] = localStorage.getItem(String(i))
                 this.forceUpdate()
             }
         }
     }
 
-    componentDidUpdate(prevProps: Readonly<MainProps & MainDispatch>, prevState: Readonly<{}>, snapshot?: any) {
-        let data = JSON.stringify(this.props.weather)
-        if (prevProps !== this.props) {
-            //Инициализация объекта,первые города
-            if (localStorage.getItem("isCity") === null) {
-                localStorage.setItem("isCity", "0")
-                localStorage.setItem("cityList", "")
-            }
-            //Новый город, делаем перерисовку и обновляет локальный стэйт
-            if (localStorage.getItem(`cityList`)!.split(`${this.props.weather.name}`).length === 1) {
-                localStorage.setItem(localStorage.getItem("isCity")!, data)
-                localStorage.setItem("cityList", `${localStorage.getItem("cityList")},${this.props.weather.name}`)
-                this.state.cityData[localStorage.getItem("isCity")!] = data
-                localStorage.setItem("isCity", String(Number(localStorage.getItem("isCity")) + 1))
-            }
-            //Если Уже существует город с таким именем
-            else {
-                for (let [key, val] of Object.entries(this.state.cityData)) {
-                    let name = JSON.parse(val as string)
-                    if (name?.name === this.props.weather.name) {
-                        this.state.cityData[key] = JSON.stringify(this.props.weather)
-                    }
-                }
-            }
-            this.props.observeCity("", true)
-            this.forceUpdate()
-        }
-    }
 
     render() {
         return (
             <main className={`d-flex flex-wrap container-fluid p-0 ${classes.root}`}>
                 {this.state.cityData.map((el: string, ind: number) => {
-                    return (<City update={this.props.observeCity} index={ind} del={(ind: number) => this.del(ind)}
+                    return (<City update={this.props.addCity} index={ind} del={(ind: number) => this.del(ind)}
                                   city={JSON.parse(el)} key={el}/>)
                 }).reverse()}
             </main>

@@ -14,42 +14,26 @@ export class Aside extends Component<AsideProps> {
         minim:273,
     }
     isNewRecord(){
-        //бЕз 100 грамм тут нечего делать, я пошел
-        let maxim=-273,maxCity="",minCity="",minim=273
-        for(let i=0;i<Number(localStorage.getItem("isCity"))&&Number(localStorage.getItem("isCity"))>1;i++) {
-            let temp = Number(JSON.parse(localStorage.getItem(`${i}`)!).temp.toFixed(2))
-            let city = JSON.parse(localStorage.getItem(`${i}`)!).name
-            if(i===0){
-                    maxim=temp
-                    maxCity=city
-                    minCity=city
-                    minim=temp
-                continue
+        //Init
+        this.setState({maxim: -273})
+        this.setState({maxCity: ""})
+        this.setState({minCity: ""})
+        this.setState({minim: 273})
+        //Update
+
+        for(let key of this.props.currentListCity) {
+            if (this.state.maxim < key.temp){
+                this.setState({maxim: key.temp})
+                this.setState({maxCity: key.city})
             }
-            //MAX/MIN
-            if (maxim < temp){
-                maxim= temp
-                maxCity= city
-            }
-            if(minim>temp){
-                minCity= city
-                minim= temp
+            if(this.state.maxim >key.temp){
+                this.setState({minCity: key.city})
+                this.setState({minim: key.temp})
             }
         }
         //MAX/MIN пушим в стэйт
-            this.setState({maxim: maxim})
-            this.setState({maxCity: maxCity})
-            this.setState({minCity: minCity})
-            this.setState({minim: minim})
     }
-componentDidMount() {
-            this.isNewRecord()
-}
     componentDidUpdate(prevProps: Readonly<AsideProps>, prevState: Readonly<AsideProps>, snapshot?: any) {
-        if(prevProps!==this.props) {
-            this.isNewRecord()
-        }
-
     }
 
     render(){
@@ -88,7 +72,7 @@ componentDidMount() {
 export type AsideProps = ReturnType<typeof mapStateToProps>
 
 let mapStateToProps = (store: AppStateType) =>({
-    isWidgetUpdate:store.header.isWidgetUpdate
+    currentListCity:store.header.currentListCity
 })
 
 export const AsideContainer = connect(mapStateToProps)(Aside);

@@ -13,9 +13,6 @@ type CityProps = {
 }
 
 export class City extends Component<CityProps> {
-    componentDidMount() {
-
-    }
 
     handleOnclickDel() {
         localStorage.removeItem(`${this.props.index}`)
@@ -25,7 +22,6 @@ export class City extends Component<CityProps> {
             localStorage.clear()
         }
         this.props.del(this.props.index)
-
     }
 
     handleOnclickUp(e:any) {

@@ -18,7 +18,9 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "bootstrap-icons": "^1.4.0",
+    "extract-country-state-city-from-zip": "^1.0.4",
     "final-form": "^4.20.2",
+    "geonames.js": "^3.0.3",
     "node-sass": "^5.0.0",
     "popper.js": "^1.16.1",
     "react": "^17.0.1",
@@ -57,6 +59,7 @@
       "last 1 safari version"
     ]
   },
+  "homepage": ".",
   "main": "index.js",
   "author": "liveemax <livemax.95@gmail.com>",
   "license": "MIT",
