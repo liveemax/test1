@@ -15,6 +15,10 @@ export const setWeather = (weatherData: any) => {
         localStorage.setItem("max", `${weather.temp.toFixed(2)} ${weather.name}`)
         localStorage.setItem("min", `${weather.temp.toFixed(2)} ${weather.name} `)
     }
+    else if(localStorage.getItem("max")!.split(`${weather.name}`).length>1)
+        localStorage.setItem("max", `${weather.temp.toFixed(2)} ${weather.name}`)
+    else if(localStorage.getItem("min")!.split(`${weather.name}`).length>1)
+        localStorage.setItem("min", `${weather.temp.toFixed(2)} ${weather.name} `)
     else if ((Number(localStorage.getItem("max")!.split(" ")[0]) < weather.temp ||
         weather.temp < Number(localStorage.getItem("min")!.split(" ")[0]))) {
         setWidget(weather)

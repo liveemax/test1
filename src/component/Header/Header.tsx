@@ -13,18 +13,18 @@ export class Header extends Component<HeaderDispatch & HeaderProps> {
         spinner: true
     }
 
-    tick(observeCity: (submit: string) => void) {
+    tick(addCity: (submit: string) => void) {
         if (this.state.currentIndex) {
             let ms = Number(this.state.updateInterval[this.state.currentIndex].split(" ")[0])
-            let timerId = setInterval(() => this.update(observeCity), ms * 1000);
+            let timerId = setInterval(() => this.update(addCity), ms * 1000);
             localStorage.setItem("timerId", String(timerId))
         }
     }
 
-    update(observeCity: (submit: string) => void) {
+    update(addCity: (submit: string) => void) {
         localStorage.getItem("cityList")?.split(",").map((el) => {
             if (el) {
-                observeCity(el)
+                addCity(el)
             }
         })
     }
@@ -69,8 +69,7 @@ export class Header extends Component<HeaderDispatch & HeaderProps> {
                     <Form
                         onSubmit={this.onSubmit}
                         validate={values => {
-                            const errors = {} as any
-                            return errors
+                            return {}
                         }}
                         render={({handleSubmit, form, submitting, pristine, values}) => (
                             <form autoComplete={"off"}

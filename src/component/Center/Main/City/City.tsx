@@ -14,18 +14,17 @@ type CityProps = {
 
 export class City extends Component<CityProps> {
     state={
-        link:{} as any
+        button:false
     }
     componentDidUpdate(prevProps: Readonly<CityProps>, prevState: Readonly<{}>, snapshot?: any): void {
-        if(document.getElementById("update") && prevProps!==this.props)
-        (document as any).getElementById("update")!.disabled=false
+        if(this.state.button&&prevProps!==this.props)
+        this.setState({button:false})
     }
     handleOnclickDel() {
         this.props.del(this.props.index)
     }
 
     handleOnclickUp(e:any) {
-        this.setState({link:e})
         this.props.update(this.props.city.name)
     }
 
@@ -55,10 +54,10 @@ export class City extends Component<CityProps> {
                             <Button onClick={() => this.handleOnclickDel()} variant="success"
                                     className={"mr-1"}>Удалить</Button>
                             <Button id={"update"} onClick={(e:any) =>{
-                                e.currentTarget.disabled=true
+                                this.setState({button:true})
                                 this.handleOnclickUp(e)
                             }
-                            } variant="danger">Обновить</Button>
+                            } variant="danger" disabled={this.state.button}>Обновить</Button>
                         </div>
                     </Card.Body>
                 </Card>
