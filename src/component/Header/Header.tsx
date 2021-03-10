@@ -22,7 +22,7 @@ export class Header extends Component<HeaderDispatch & HeaderProps> {
     }
 
     update(observeCity: (submit: string) => void) {
-        localStorage.getItem("cityList")?.split(",").map((el,) => {
+        localStorage.getItem("cityList")?.split(",").map((el) => {
             if (el) {
                 observeCity(el)
             }

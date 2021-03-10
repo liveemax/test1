@@ -1,7 +1,6 @@
 import {weather} from "../../type/type";
 
 export const setCurrentListCity=(currentListCity:Array<any>,indexUpdate:number,weather:weather):Array<any>=>{
-    debugger
     if(indexUpdate!==404) {
         currentListCity[indexUpdate]=weather
     }

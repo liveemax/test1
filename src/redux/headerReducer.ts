@@ -6,7 +6,8 @@ import {setWeather} from "./function/setWeather";
 import {weather} from "../type/type";
 import {setCurrentListCity} from "./function/setCurrentListCity";
 import {findCurrentIndex} from "./function/findCityIndex";
-import {debuglog} from "util";
+import {setLastListCity} from "./function/setLastListCity";
+import {remListCity} from "./function/remListCity";
 
 let initialState = {
     xy: null as null | Array<number>,
@@ -16,6 +17,7 @@ let initialState = {
 }
 
 export const headerReducer = (state = initialState, action: ActionsType): InitialStateType => {
+
     switch (action.type) {
         case "SELECT_HEADER_TOOLTIP":
             return {
@@ -26,11 +28,24 @@ export const headerReducer = (state = initialState, action: ActionsType): Initia
         case "SELECT_HEADER_WEATHER":
             let indexUpdate=findCurrentIndex(action.weather)
             let list=setCurrentListCity(JSON.parse(JSON.stringify(state.currentListCity)),indexUpdate,action.weather)
-            debugger
             return {
                 ...state,
                 weather:action.weather,
                 currentListCity:list
+            }
+        case "SELECT_CURRENT_CITES":
+            let lastList=setLastListCity()
+            return {
+                ...state,
+                currentListCity:lastList
+            }
+        case "SELECT_REM_CITY":
+            let currentListCity=remListCity(JSON.parse(JSON.stringify(state.currentListCity)),action.ind)
+            debugger
+
+            return {
+                ...state,
+                currentListCity:currentListCity
             }
         default:
             return state;
@@ -40,8 +55,15 @@ export const headerReducer = (state = initialState, action: ActionsType): Initia
 export const actions = {
     toolTipAC: (tooltip: null|Array<string>,xy:null|Array<number>) => ({type: 'SELECT_HEADER_TOOLTIP', tooltip,xy} as any),
     addCityAC: (weather:weather) => ({type: 'SELECT_HEADER_WEATHER', weather} as const),
+    currentCityAC: () => ({type: 'SELECT_CURRENT_CITES'} as const),
+    remCityAC: (ind:number) => ({type: 'SELECT_REM_CITY',ind} as const),
 }
 
+export const setCurrentCity = () => (dispatch:ActionsType) => {
+    localStorage.setItem("max","-273  ")
+    localStorage.setItem("min","273  ")
+    dispatch(actions.currentCityAC())
+}
 export const setToolTip = (nameStartsWith:string): ThunkType => async (dispatch) => {
     if(nameStartsWith.length>2) {
         try {
@@ -66,6 +88,9 @@ export const addCity = (submit:string): ThunkType => async (dispatch) => {
             alert("город не найден")
         }
     }
+export const remCity = (ind:number) =>  (dispatch:ActionsType) => {
+    dispatch(actions.remCityAC(ind))
+}
 
 export type InitialStateType = typeof initialState
 type ActionsType = InferActionsTypes<typeof actions>

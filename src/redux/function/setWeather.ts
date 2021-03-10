@@ -1,5 +1,6 @@
 import {weather} from "../../type/type";
 import {findCurrentIndex} from "./findCityIndex";
+import {setWidget} from "./setWidget";
 
 export const setWeather = (weatherData: any) => {
     const weather: weather = {
@@ -10,22 +11,28 @@ export const setWeather = (weatherData: any) => {
         wind: weatherData.data.wind,
         time: Date.now()
     }
-        //update
-    let indexUpdate=findCurrentIndex(weather)
-
-    if(indexUpdate!==404) {
+    if (!localStorage.getItem("isCity")){
+        localStorage.setItem("max", `${weather.temp.toFixed(2)} ${weather.name}`)
+        localStorage.setItem("min", `${weather.temp.toFixed(2)} ${weather.name} `)
+    }
+    else if ((Number(localStorage.getItem("max")!.split(" ")[0]) < weather.temp ||
+        weather.temp < Number(localStorage.getItem("min")!.split(" ")[0]))) {
+        setWidget(weather)
+    }
+    let indexUpdate = findCurrentIndex(weather)
+    //update
+    if (indexUpdate !== 404) {
         localStorage.setItem(`${indexUpdate}`, JSON.stringify(weather))
         return weather
     }
-        //setLocalStorage
-    localStorage.setItem(`${localStorage.getItem(`isCity`)?localStorage.getItem(`isCity`):"0"}`, JSON.stringify(weather))
+    //setLocalStorage
+    localStorage.setItem(`${localStorage.getItem(`isCity`) ? localStorage.getItem(`isCity`) : "0"}`, JSON.stringify(weather))
     if (localStorage.getItem(`isCity`)) {
-            localStorage.setItem(`isCity`, String(Number(localStorage.getItem("isCity")!) + 1))
-            localStorage.setItem("cityList",localStorage.getItem("cityList")!+`,${weather.name}`)
-        }
-        else {
-            localStorage.setItem(`isCity`, "1")
-            localStorage.setItem("cityList",`,${weather.name}`)
-        }
+        localStorage.setItem(`isCity`, String(Number(localStorage.getItem("isCity")!) + 1))
+        localStorage.setItem("cityList", localStorage.getItem("cityList")! + `,${weather.name}`)
+    } else {
+        localStorage.setItem(`isCity`, "1")
+        localStorage.setItem("cityList", `,${weather.name}`)
+    }
     return weather
 }

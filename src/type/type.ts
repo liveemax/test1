@@ -8,5 +8,4 @@ export type weather= {
         deg:number
     },
     time:number,
-    nmb?:number
 }

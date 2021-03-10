@@ -13,18 +13,19 @@ type CityProps = {
 }
 
 export class City extends Component<CityProps> {
-
+    state={
+        link:{} as any
+    }
+    componentDidUpdate(prevProps: Readonly<CityProps>, prevState: Readonly<{}>, snapshot?: any): void {
+        if(document.getElementById("update") && prevProps!==this.props)
+        (document as any).getElementById("update")!.disabled=false
+    }
     handleOnclickDel() {
-        localStorage.removeItem(`${this.props.index}`)
-        localStorage.setItem(`isCity`, String(Number(localStorage.getItem("isCity")) - 1))
-        localStorage.setItem(`cityList`, localStorage.getItem(`cityList`)!.split(`,${this.props.city.name}`).join(""))
-        if (localStorage.getItem(`isCity`) === "0") {
-            localStorage.clear()
-        }
         this.props.del(this.props.index)
     }
 
     handleOnclickUp(e:any) {
+        this.setState({link:e})
         this.props.update(this.props.city.name)
     }
 
@@ -53,7 +54,7 @@ export class City extends Component<CityProps> {
                         <div className={"d-flex justify-content-center"}>
                             <Button onClick={() => this.handleOnclickDel()} variant="success"
                                     className={"mr-1"}>Удалить</Button>
-                            <Button onClick={(e:any) =>{
+                            <Button id={"update"} onClick={(e:any) =>{
                                 e.currentTarget.disabled=true
                                 this.handleOnclickUp(e)
                             }
