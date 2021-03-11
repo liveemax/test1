@@ -12,5 +12,30 @@
       transform: translate(0, -2px);
     }
   }
-
+  img{
+    min-height:calc(100vh - 100px)
+  }
+}
+.next{
+  width: 300px;
+}
+.item{
+  position: relative;
+}
+.text{
+  position: absolute;
+  top:50vh;
+  transform: translate(0px,-50%);
+}
+@media screen and (max-width:569px ){
+  .root{
+    img {
+      min-height: 300px;
+    }
+    .text{
+      position: absolute;
+      top: 0px;
+      transform: translate(0px,0px);
+    }
+  }
 }

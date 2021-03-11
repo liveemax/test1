@@ -1,6 +1,6 @@
 import {BaseThunkType, InferActionsTypes} from "./redux-store";
 import {setCity} from "./function/setCity";
-import {toolTipAPI} from "../api/apiCity/header-cityApi";
+import { toolTipAPI} from "../api/apiCity/header-cityApi";
 import {whetherAPI} from "../api/apiWeather/header-weatherApi";
 import {setWeather} from "./function/setWeather";
 import {weather} from "../type/type";
@@ -14,6 +14,7 @@ let initialState = {
     tooltip: null as null | Array<string>,
     weather: {} as weather,
     currentListCity: [] as Array<any>,
+    error:""
 }
 
 export const headerReducer = (state = initialState, action: ActionsType): InitialStateType => {
@@ -41,11 +42,15 @@ export const headerReducer = (state = initialState, action: ActionsType): Initia
             }
         case "SELECT_REM_CITY":
             let currentListCity=remListCity(JSON.parse(JSON.stringify(state.currentListCity)),action.ind)
-            debugger
 
             return {
                 ...state,
                 currentListCity:currentListCity
+            }
+        case "SELECT_ERROR":
+            return {
+                ...state,
+                error:action.error
             }
         default:
             return state;
@@ -57,6 +62,7 @@ export const actions = {
     addCityAC: (weather:weather) => ({type: 'SELECT_HEADER_WEATHER', weather} as const),
     currentCityAC: () => ({type: 'SELECT_CURRENT_CITES'} as const),
     remCityAC: (ind:number) => ({type: 'SELECT_REM_CITY',ind} as const),
+    addErrorAC: (error:string) => ({type: 'SELECT_ERROR',error} as const),
 }
 
 export const setCurrentCity = () => (dispatch:ActionsType) => {
@@ -67,29 +73,36 @@ export const setCurrentCity = () => (dispatch:ActionsType) => {
 export const setToolTip = (nameStartsWith:string): ThunkType => async (dispatch) => {
     if(nameStartsWith.length>2) {
         try {
-            const data = await toolTipAPI.get(nameStartsWith)
-            let {city,xy,...cityXy}=setCity(data)
+            const data =  await toolTipAPI.get(nameStartsWith)
+            let {city,xy,...cityXy}=setCity(data.data)
             dispatch(actions.toolTipAC(city,xy))
         }
         catch (e){
-            console.log("error to get tooltip")
         }
     }
     else dispatch(actions.toolTipAC(null,null))
 }
 export const addCity = (submit:string): ThunkType => async (dispatch) => {
         let weatherData
-        try {
+    try{
             weatherData = await whetherAPI.get(submit)
             const weather = setWeather(weatherData)
             dispatch(actions.addCityAC(weather))
-        }
-        catch (e){
-            alert("город не найден")
-        }
+    }
+    catch (e) {
+            let error=""
+            if(e.message==="Request failed with status code 404")
+                error= "Города с таким именем не существует"
+            else
+                error=e.message
+        dispatch(actions.addErrorAC(error))
+    }
     }
 export const remCity = (ind:number) =>  (dispatch:ActionsType) => {
     dispatch(actions.remCityAC(ind))
+}
+export const closeErr = () =>  (dispatch:ActionsType) => {
+    dispatch(actions.addErrorAC(""))
 }
 
 export type InitialStateType = typeof initialState

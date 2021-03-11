@@ -1,23 +1,48 @@
 .root {
-  height: 100px;
-  .formInput{
-    position: relative;
-  }
-  .formInputButton{
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 100;
-    opacity: 0.5;
-  }
-  .formLastButton{
-    display: flex;
-  }
-  .active{
-    visibility: visible;
-    display: flex;
-  }
-  .spinner{
-    visibility: hidden;
+  min-height: 100px;
+  button:last-child{
+      width: 150px;
   }
 }
+.formInput {
+  position: relative;
+}
+
+.formInputButton {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 100;
+  opacity: 0.5;
+}
+
+.formLastButton {
+  display: flex;
+}
+
+.active {
+  visibility: visible;
+  display: flex;
+}
+
+.spinner {
+  visibility: hidden;
+}
+
+
+@media screen and (max-width: 576px){
+  .root{
+    padding: 0!important;
+    button:last-child{
+      width: auto;
+      height:50px
+    }
+  }
+  .formInput {
+    padding: 0!important;
+  }
+  form{
+    padding: 0!important;
+  }
+}
+

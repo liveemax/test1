@@ -1,9 +1,9 @@
 .root{
-
-}@media screen and (max-width: 576px) {
+display: flex;
+flex-flow: row-reverse;
+}
+@media screen and (max-width: 576px) {
   .root {
-    flex-direction: column;
-    margin: 0px;
-    padding-right: 0 !important;
+    flex-flow: column-reverse;
   }
 }

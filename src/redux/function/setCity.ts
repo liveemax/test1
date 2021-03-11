@@ -8,7 +8,7 @@ export const setCity=(data:any)=>{
     }
     data.geonames.map((el:any,ind:number)=>
     {
-        city[ind]=`${el.name},${el.countryName}-${el.fcodeName}`
+        city[ind]=`${el.name},${el.countryName}`
         xy[ind]=[el.lat,el.lng]
     })
 

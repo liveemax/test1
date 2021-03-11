@@ -13,7 +13,8 @@ export type MainDispatch={
 
 let mapStateToProps = (store: AppStateType) => ({
     weather: store.header.weather,
-    currentListCity: store.header.currentListCity
+    currentListCity: store.header.currentListCity,
+    error:store.header.error
 })
 
 export const MainContainer = connect(mapStateToProps,{addCity,setCurrentCity,remCity})(Main);

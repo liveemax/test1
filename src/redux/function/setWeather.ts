@@ -11,6 +11,7 @@ export const setWeather = (weatherData: any) => {
         wind: weatherData.data.wind,
         time: Date.now()
     }
+    //widget
     if (!localStorage.getItem("isCity")){
         localStorage.setItem("max", `${weather.temp.toFixed(2)} ${weather.name}`)
         localStorage.setItem("min", `${weather.temp.toFixed(2)} ${weather.name} `)
